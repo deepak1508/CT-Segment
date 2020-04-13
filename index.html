@@ -140,13 +140,7 @@ body {
 </head>
 <body>
 
-<div class="topnav">
-<div class="topnav">
-<a class="active" href="https://deepak1508.github.io/Clevertap_integration/index.html">Send event</a>
-<a href="https://deepak1508.github.io/Clevertap_integration/Set_identity.html">Set identity</a>
-  
-</div>
-</div>
+
 
 
 <h4> Event property form</h4>
@@ -156,6 +150,15 @@ body {
 <div class="form-group"><label for="email">Product Name</label> <input class="form-control" id="product_name" placeholder="Test product" type="email" /></div>
 <div class="form-group"><label for="email">Delivery_Date</label> <input class="form-control" id="Delivery_Date" placeholder="$D_1564642902" type="email" /></div>
 <button class="btn btn-default" id="btnClevertap_event" type="button" onclick="sendClevertap_event()">Send Event</button></div>
+
+<h4> User property form</h4>
+
+<div class="form-group"><label for="name">User name</label> <input class="form-control" id="user_name" placeholder="john Doe" type="name" /></div>
+
+<div class="form-group"><label for="email">User_email</label> <input class="form-control" id="User_email" placeholder="johndoe@test.com" type="email" /></div>
+<div class="form-group"><label for="date_time">DOB</label> <input class="form-control" id="DOB" placeholder="$D_1564642902" type="date_type" /></div>
+<button class="btn btn-default" id="btnClevertap_event" type="button" onclick="sendClevertap_user()">Send Event</button></div>
+
 
 
 
@@ -170,18 +173,48 @@ function sendClevertap_event(e) {
 
         var Event = document.getElementById('Event_name').value;
         console.log(document.getElementById('Event_name').value);
+
+
+        analytics.track(Event, {
+                                        
+                                        Product name: document.getElementById('product_name').value,
+                                        Delivery_Date: document.getElementById('Delivery_Date').value,
+                        });
+ 
+
+                                }
+function sendClevertap_user(e) {
+
+        var email1 = document.getElementById('User_email').value;
+        console.log(document.getElementById('User_email').value);
+        var name1 = document.getElementById('user_name').value;
+        var birthday = document.getElementById('DOB').value;
         
-           clevertap.event.push(Event, {
-                                                                  "Product name": document.getElementById('product_name').value,
-                                                                  "Delivery_Date": document.getElementById('Delivery_Date').value,
-                                                                  
-                                                });
+        clevertap.onUserLogin.push({
+                                     "Site": {
+                                               "Name": name1,            // String
+                                               "Identity": email1,              // String or number
+                                               "Email": email1,         // Email address of the use  
+                                              }
+                                  });                                                          
+
+
+
+          analytics.identify(email, {
+                                       name: name1,
+                                       email: email1,
+                                       date of birth: birthday,
+                                      });
+        
+           
            
 
-        }
-        
+        }        
 
 </script>
+
+
+
 
 
 </body>
